@@ -1,0 +1,26 @@
+Package: inkr
+Title: All of INKAR Data in a Local DuckDB Database
+Version: 0.0.0.9000
+Authors@R: 
+    person("Long", "Nguyen", , "long.nguyen@uni-bielefeld.de", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-8878-7386"))
+Description: inkr populates a local DuckDB database with all the data from
+    <https://www.inkar.de/> and creates an interface in R to the database
+    via {DBI}.
+License: MIT + file LICENSE
+Depends: 
+    R (>= 4.1)
+Imports: 
+    DBI,
+    dbplyr,
+    dplyr,
+    duckdb,
+    snakecase,
+    stringi
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
