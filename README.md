@@ -1,9 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+<!-- badges: end -->
 
 # inkr
 
-{inkr} provides efficient and automated access to data from
+{inkr} provides efficient and automated access to regional data from
 [inkar.de](https://www.inkar.de) via a local relational database.
 
 Data from [INKAR](https://www.inkar.de)[^1] are normalised[^2] and
@@ -70,7 +75,7 @@ inkar$`_regionen` |>
   distinct(raumbezug) |>
   arrange(raumbezug)
 #> # Source:     SQL [?? x 1]
-#> # Database:   DuckDB 0.6.0 [lngyuen@Linux 5.15.0-56-generic:R 4.2.2//home/lngyuen/R/x86_64-pc-linux-gnu-library/4.2/inkr/db/inkar.duckdb]
+#> # Database:   DuckDB 0.6.2-dev1166 [unknown@Linux 5.15.0-60-generic:R 4.2.2//home/hnguyen9/R/x86_64-pc-linux-gnu-library/4.2/inkr/db/inkar.duckdb]
 #> # Ordered by: raumbezug
 #>    raumbezug                         
 #>    <chr>                             
@@ -89,7 +94,7 @@ inkar$`_regionen` |>
 inkar$`_indikatoren` |>
   count(bereich)
 #> # Source:   SQL [?? x 2]
-#> # Database: DuckDB 0.6.0 [lngyuen@Linux 5.15.0-56-generic:R 4.2.2//home/lngyuen/R/x86_64-pc-linux-gnu-library/4.2/inkr/db/inkar.duckdb]
+#> # Database: DuckDB 0.6.2-dev1166 [unknown@Linux 5.15.0-60-generic:R 4.2.2//home/hnguyen9/R/x86_64-pc-linux-gnu-library/4.2/inkr/db/inkar.duckdb]
 #>    bereich                                 n
 #>    <chr>                               <dbl>
 #>  1 Absolutzahlen                          10
@@ -113,7 +118,7 @@ Find the indicator ID for the median income:
 inkar$`_indikatoren` |>
   filter(kurzname == "Medianeinkommen")
 #> # Source:   SQL [1 x 7]
-#> # Database: DuckDB 0.6.0 [lngyuen@Linux 5.15.0-56-generic:R 4.2.2//home/lngyuen/R/x86_64-pc-linux-gnu-library/4.2/inkr/db/inkar.duckdb]
+#> # Database: DuckDB 0.6.2-dev1166 [unknown@Linux 5.15.0-60-generic:R 4.2.2//home/hnguyen9/R/x86_64-pc-linux-gnu-library/4.2/inkr/db/inkar.duckdb]
 #>      id bereich                           kurzname name  algor…¹ anmer…² stati…³
 #>   <int> <chr>                             <chr>    <chr> <chr>   <chr>   <chr>  
 #> 1   224 Privateinkommen, Private Schulden Mediane… Medi… Median… Median… Statis…
@@ -135,7 +140,7 @@ inkar$privateinkommen_private_schulden |>
   head(5) |>
   select(name, medianeinkommen)
 #> # Source:     SQL [5 x 2]
-#> # Database:   DuckDB 0.6.0 [lngyuen@Linux 5.15.0-56-generic:R 4.2.2//home/lngyuen/R/x86_64-pc-linux-gnu-library/4.2/inkr/db/inkar.duckdb]
+#> # Database:   DuckDB 0.6.2-dev1166 [unknown@Linux 5.15.0-60-generic:R 4.2.2//home/hnguyen9/R/x86_64-pc-linux-gnu-library/4.2/inkr/db/inkar.duckdb]
 #> # Ordered by: desc(medianeinkommen)
 #>   name                         medianeinkommen
 #>   <chr>                                  <dbl>
@@ -145,6 +150,34 @@ inkar$privateinkommen_private_schulden |>
 #> 4 Böblingen                              4809.
 #> 5 Ludwigshafen am Rhein, Stadt           4721.
 ```
+
+## Citation
+
+To cite package ‘inkr’ in publications use:
+
+Nguyen HL (2023). {inkr}: Local Access from R to All INKAR Data.
+<https://doi.org/10.5281/zenodo.XXXXXXX>,
+<https://github.com/long39ng/inkr>
+
+A BibTeX entry for LaTeX users is
+
+    @Manual{,
+      title = {{inkr}: Local Access from R to All INKAR Data},
+      doi = {10.5281/zenodo.XXXXXXX},
+      author = {H. Long Nguyen},
+      year = {2023},
+      version = {0.1.0},
+      url = {https://github.com/long39ng/inkr},
+    }
+
+## Copyright notice
+
+The data are made available by the [*Bundesinstitut für Bau-, Stadt- und
+Raumforschung* (BBSR)](https://www.bbsr.bund.de) in accordance with the
+[data licence Germany – attribution – version
+2.0](https://www.govdata.de/dl-de/by-2-0).
+
+This package is in no way officially related to or endorsed by BBSR.
 
 [^1]: downloaded via
     [“Datenbankdownload”](https://www.bbr-server.de/imagemap/inkar/download/inkar_2021.zip)

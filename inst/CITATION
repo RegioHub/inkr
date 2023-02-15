@@ -1,0 +1,19 @@
+year <- format(Sys.time(), "%Y")
+doi <- "10.5281/zenodo.XXXXXXX"
+url <- unlist(strsplit(meta$URL, ","))[1]
+
+bibentry(
+  bibtype = "Manual",
+  header = paste0("To cite package '", meta$Package, "' in publications use:"),
+  title = paste0("{", meta$Package, "}: ", meta$Title),
+  doi = doi,
+  author = person("H. Long", "Nguyen"),
+  year = year,
+  version = meta$Version,
+  url = url,
+  textVersion = paste0(
+    "Nguyen HL (", year, "). {inkr}: ",
+    meta$Title, ". <https://doi.org/", doi, ">, <",
+    url, ">"
+  )
+)

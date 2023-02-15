@@ -4,6 +4,10 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+<!-- badges: end -->
+  
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -15,7 +19,7 @@ knitr::opts_chunk$set(
 
 # inkr
 
-{inkr} provides efficient and automated access to data from [inkar.de](https://www.inkar.de) via a local relational database.
+{inkr} provides efficient and automated access to regional data from [inkar.de](https://www.inkar.de) via a local relational database.
 
 Data from [INKAR](https://www.inkar.de)^[downloaded via ["Datenbankdownload"](https://www.bbr-server.de/imagemap/inkar/download/inkar_2021.zip)] are normalised^[i.e. not a single table with 21 million rows] and imported into a local [DuckDB](https://duckdb.org) database. On attach (e.g. with `library(inkr)`), a [DBI](https://dbi.r-dbi.org/) connection is made from R to this database.
 
@@ -86,3 +90,21 @@ inkar$privateinkommen_private_schulden |>
   head(5) |>
   select(name, medianeinkommen)
 ```
+
+## Citation
+
+```{r echo=FALSE, results='asis'}
+print(citation("inkr"), bibtex = FALSE)
+```
+
+A BibTeX entry for LaTeX users is
+
+```{r echo=FALSE, comment=""}
+toBibtex(citation("inkr"))
+```
+
+## Copyright notice
+
+The data are made available by the [*Bundesinstitut für Bau-, Stadt- und Raumforschung* (BBSR)](https://www.bbsr.bund.de) in accordance with the [data licence Germany – attribution – version 2.0](https://www.govdata.de/dl-de/by-2-0).
+
+This package is in no way officially related to or endorsed by BBSR.

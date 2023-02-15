@@ -1,18 +1,19 @@
 Package: inkr
-Title: All of INKAR Data in a Local DuckDB Database
-Version: 0.0.0.9000
+Title: Local Access from R to All INKAR Data
+Version: 0.1.0
 Authors@R: 
-    person("Long", "Nguyen", , "long.nguyen@uni-bielefeld.de", role = c("aut", "cre"),
+    person("H. Long", "Nguyen", , "long.nguyen@uni-bielefeld.de", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-8878-7386"))
-Description: inkr populates a local DuckDB database with all the data from
-    <https://www.inkar.de/> and creates an interface in R to the database
-    via {DBI}.
+Description: inkr populates a local DuckDB database with all regional data
+    from <https://www.inkar.de/> and creates an interface in R to the
+    database via DBI.
 License: MIT + file LICENSE
+URL: https://github.com/long39ng/inkr
+BugReports: https://github.com/long39ng/inkr/issues
 Depends: 
     R (>= 4.1)
 Imports: 
     DBI,
-    dbplyr,
     dplyr,
     duckdb,
     snakecase,
@@ -23,6 +24,4 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
-URL: https://github.com/long39ng/inkr
-BugReports: https://github.com/long39ng/inkr/issues
+RoxygenNote: 7.2.3
