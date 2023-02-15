@@ -2,6 +2,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
+[![DOI](https://zenodo.org/badge/575766849.svg)](https://zenodo.org/badge/latestdoi/575766849)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
@@ -156,14 +157,14 @@ inkar$privateinkommen_private_schulden |>
 To cite package ‘inkr’ in publications use:
 
 Nguyen HL (2023). {inkr}: Local Access from R to All INKAR Data.
-<https://doi.org/10.5281/zenodo.XXXXXXX>,
+<https://doi.org/10.5281/zenodo.7643756>,
 <https://github.com/long39ng/inkr>
 
 A BibTeX entry for LaTeX users is
 
     @Manual{,
       title = {{inkr}: Local Access from R to All INKAR Data},
-      doi = {10.5281/zenodo.XXXXXXX},
+      doi = {10.5281/zenodo.7643756},
       author = {H. Long Nguyen},
       year = {2023},
       version = {0.1.0},

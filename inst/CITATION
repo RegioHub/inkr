@@ -1,5 +1,5 @@
 year <- format(Sys.time(), "%Y")
-doi <- "10.5281/zenodo.XXXXXXX"
+doi <- "10.5281/zenodo.7643756"
 url <- unlist(strsplit(meta$URL, ","))[1]
 
 bibentry(
