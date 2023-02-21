@@ -8,8 +8,8 @@ Description: inkr populates a local DuckDB database with all regional data
     from <https://www.inkar.de/> and creates an interface in R to the
     database via DBI.
 License: MIT + file LICENSE
-URL: https://github.com/long39ng/inkr
-BugReports: https://github.com/long39ng/inkr/issues
+URL: https://github.com/RegioHub/inkr
+BugReports: https://github.com/RegioHub/inkr/issues
 Depends: 
     R (>= 4.1)
 Imports: 

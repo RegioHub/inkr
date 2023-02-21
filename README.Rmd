@@ -29,7 +29,7 @@ Data from [INKAR](https://www.inkar.de)^[downloaded via ["Datenbankdownload"](ht
 You can install {inkr} like so:
 
 ```{r eval=FALSE}
-remotes::install_github("long39ng/inkr")
+remotes::install_github("RegioHub/inkr")
 ```
 
 ## Usage

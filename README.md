@@ -22,7 +22,7 @@ is made from R to this database.
 You can install {inkr} like so:
 
 ``` r
-remotes::install_github("long39ng/inkr")
+remotes::install_github("RegioHub/inkr")
 ```
 
 ## Usage
@@ -158,7 +158,7 @@ To cite package ‘inkr’ in publications use:
 
 Nguyen HL (2023). {inkr}: Local Access from R to All INKAR Data.
 <https://doi.org/10.5281/zenodo.7643756>,
-<https://github.com/long39ng/inkr>
+<https://github.com/RegioHub/inkr>
 
 A BibTeX entry for LaTeX users is
 
@@ -168,7 +168,7 @@ A BibTeX entry for LaTeX users is
       author = {H. Long Nguyen},
       year = {2023},
       version = {0.1.0},
-      url = {https://github.com/long39ng/inkr},
+      url = {https://github.com/RegioHub/inkr},
     }
 
 ## Copyright notice
