@@ -1,6 +1,6 @@
 Package: inkr
 Title: Local Access from R to All INKAR Data
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: 
     person("H. Long", "Nguyen", , "long.nguyen@uni-bielefeld.de", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-8878-7386"))

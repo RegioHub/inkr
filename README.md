@@ -157,14 +157,14 @@ inkar$privateinkommen_private_schulden |>
 To cite package ‘inkr’ in publications use:
 
 Nguyen HL (2023). {inkr}: Local Access from R to All INKAR Data.
-<https://doi.org/10.5281/zenodo.7643756>,
+<https://doi.org/10.5281/zenodo.7643755>,
 <https://github.com/RegioHub/inkr>
 
 A BibTeX entry for LaTeX users is
 
     @Manual{,
       title = {{inkr}: Local Access from R to All INKAR Data},
-      doi = {10.5281/zenodo.7643756},
+      doi = {10.5281/zenodo.7643755},
       author = {H. Long Nguyen},
       year = {2023},
       version = {0.1.0},
