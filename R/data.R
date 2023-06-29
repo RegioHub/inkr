@@ -16,3 +16,8 @@
 #' The DBI connection to the local database is stored as an attribute of the
 #'   `inkar` object and can be accessed with `attr(inkar, "con")`.
 "inkar"
+
+#' NUTS-3 regions (districts/_Kreise_)
+#'
+#' Lookup table with NUTS-3 code and _Kreiskennziffer_ for all 401 NUTS-3 regions in Germany
+"kreise"
