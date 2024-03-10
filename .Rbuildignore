@@ -7,3 +7,6 @@
 ^inst/db/inkar\.duckdb$
 ^CITATION\.cff$
 ^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
