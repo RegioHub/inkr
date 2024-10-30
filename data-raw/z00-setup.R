@@ -1,5 +1,10 @@
-library(tidyverse)
 library(DBI)
-source(here::here("data-raw/zaa-utils.R"))
+library(tidyverse)
 
-con <- dbConnect(duckdb::duckdb(), dbdir = here::here("data-raw/inkar.duckdb"))
+make_clean_names_de <- function(x) {
+  x |>
+    stringi::stri_trans_general("de-ASCII") |>
+    snakecase::to_snake_case()
+}
+
+con <- dbConnect(duckdb::duckdb(), dbdir = "data-raw/inkar.duckdb")

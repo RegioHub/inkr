@@ -1,26 +1,37 @@
-source(here::here("data-raw/z00-setup.R"))
+source("data-raw/z00-setup.R")
 
-zip_url <- "https://www.bbr-server.de/imagemap/inkar/download/inkar_2021.zip"
-zip_name <- stringi::stri_extract_first_regex(zip_url, "(?<=\\/)\\w+\\.zip$")
+zip_url <- "https://www.bbr-server.de/imagemap/inkar/download/inkar_2024.zip"
 
-download.file(zip_url, here::here("data-raw", zip_name))
+zip_path <- "data-raw/inkar_2024/inkar_2024.zip"
 
-zipped_csv_info <- unzip(here::here("data-raw", zip_name), list = TRUE)
+download.file(zip_url, zip_path)
 
-csv_name <- zipped_csv_info$Name[1]
+unzip(zip_path)
 
-if (!file.exists(here::here("data-raw", csv_name)) ||
-    as.Date(file.info(here::here("data-raw", csv_name))$mtime) != as.Date(zipped_csv_info$Date)[1]) {
-  unzip(
-    here::here("data-raw", zip_name),
-    files = csv_file,
-    exdir = here::here("data-raw"),
-    unzip = getOption("unzip")
+polars::pl$scan_csv(
+  "inkar_2024/inkar_2024.csv",
+  separator = ";",
+  dtypes = list(
+    Bereich = "String",
+    ID = "Int32",
+    Kuerzel = "String",
+    Indikator = "String",
+    Raumbezug = "String",
+    Kennziffer = "String",
+    Name = "String",
+    Zeitbezug = "String",
+    Wert = "String"
   )
-}
+)$with_columns(
+  polars::pl$col("Wert")$
+    str$replace(",", ".", literal = TRUE)$
+    cast(polars::pl$dtypes$Float64)
+)$sink_parquet("inkar_2024/inkar_2024.parquet")
 
-inkar <- read_csv2(here::here("data-raw", csv_name), col_types = "ciccicccn", lazy = FALSE)
-
-dbWriteTable(con, "inkar_raw", inkar)
+dbExecute(
+  con,
+  "CREATE TABLE inkar_raw AS
+    SELECT * FROM 'data-raw/inkar_2024/inkar_2024.parquet'"
+)
 
 dbDisconnect(con, shutdown = TRUE)
