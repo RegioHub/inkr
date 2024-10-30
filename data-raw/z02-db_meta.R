@@ -1,6 +1,7 @@
-source(here::here("data-raw/z00-setup.R"))
+source("data-raw/z00-setup.R")
 
-inkar_raw_duck <- tbl(con, "inkar_raw")
+inkar_raw_duck <- tbl(con, "inkar_raw") |>
+  rename_with(make_clean_names_de)
 
 
 # Indikatoren -------------------------------------------------------------
@@ -11,40 +12,45 @@ inkar_raw_duck <- tbl(con, "inkar_raw")
 #   count(ID) |>
 #   filter(n > 1)
 
-indikatoren <- inkar_raw_duck |>
-  distinct(ID, Bereich) |>
-  arrange(ID) |>
-  collect() |>
-  rename_with(make_clean_names_de)
+indikatoren_ids <- inkar_raw_duck |>
+  distinct(id, bereich) |>
+  collect()
 
-indikatoren_xlsx <-
-  remote_to_local("https://www.inkar.de/documents/Uebersicht%20der%20Indikatoren.xlsx")
+indikatoren_xlsx <- "data-raw/inkar_2024/INKAR 2024 Indikatorenübersicht.xlsx"
 
-indikatoren_ref <- map_dfr(
-  seq_along(readxl::excel_sheets(indikatoren_xlsx)),
-  function(sheet) {
+indikatoren_ref <-
+  # Number of rows to skip in each sheet:
+  c(2, 1, 2, 1) |>
+  set_names(
+    setdiff(readxl::excel_sheets(indikatoren_xlsx), "Nutzungshinweise"),
+  ) |>
+  imap(\(skip, sheet) {
     readxl::read_xlsx(
       indikatoren_xlsx,
       sheet = sheet,
-      skip = if (sheet <= 2) 2 else 1
+      skip = skip
     ) |>
-      mutate(ID = as.integer(ID)) |>
-      drop_na(ID) |>
-      select(ID:`Statistische Grundlagen`) |>
-      rename_with(make_clean_names_de)
-  }
-)
+      rename_with(make_clean_names_de) |>
+      drop_na(kuerzel) |>
+      mutate(across(ends_with("id"), as.integer)) |>
+      select(kuerzel:statistische_grundlagen)
+  }) |>
+  list_rbind(names_to = "rubrik")
 
-# anti_join(indikatoren_ref, indikatoren)
-# 531 not in data
+# 12 indicators not in data
+# anti_join(indikatoren_ref, indikatoren_ids, by = join_by(merk_id == id))
 
-indikatoren <- indikatoren |>
-  left_join(indikatoren_ref, by = "id")
+indikatoren <- indikatoren_ref |>
+  inner_join(indikatoren_ids, by = join_by(merk_id == id)) |>
+  relocate(bereich, .after = rubrik)
 
 dbExecute(con, "
   CREATE TABLE _indikatoren(
-    id INTEGER PRIMARY KEY,
+    merk_id INTEGER PRIMARY KEY,
+    m_id INTEGER,
+    rubrik VARCHAR,
     bereich VARCHAR,
+    kuerzel VARCHAR,
     kurzname VARCHAR,
     name VARCHAR,
     algorithmus VARCHAR,
@@ -58,34 +64,27 @@ dbAppendTable(con, "_indikatoren", indikatoren)
 
 # Regionen ----------------------------------------------------------------
 
-# Key: [Raumbezug, Kennziffer] if Bereich != "Europa" else [Raumbezug, Kennziffer_EU]
+# Key: [Raumbezug, Kennziffer]
 # inkar_raw_duck |>
-#   mutate(
-#     Kennziffer = as.character(Kennziffer),
-#     Kennziffer = coalesce(Kennziffer, Kennziffer_EU)
-#   ) |>
 #   distinct(Raumbezug, Kennziffer, Name) |>
 #   count(Raumbezug, Kennziffer) |>
 #   filter(n > 1)
 
 regionen <- inkar_raw_duck |>
-  distinct(Raumbezug, Kennziffer, Kennziffer_EU, Name) |>
-  mutate(id = as.integer(row_number())) |>
-  collect() |>
-  rename_with(make_clean_names_de)
+  distinct(raumbezug, kennziffer, name) |>
+  collect()
 
 dbExecute(con, "
   CREATE TABLE _regionen(
-    id INTEGER PRIMARY KEY,
     raumbezug VARCHAR,
-    kennziffer INTEGER,
-    kennziffer_eu VARCHAR,
-    name VARCHAR
+    kennziffer VARCHAR,
+    name VARCHAR,
+    PRIMARY KEY (raumbezug, kennziffer)
   )
 ")
 
 dbAppendTable(con, "_regionen", regionen)
 
-# TODO: Add data from https://www.inkar.de/documents/Referenz%20Gemeinden,%20Kreise,%20NUTS.xlsx
+# TODO: Add data from BBSR_Raumgliederungen_Referenzen_2022.xlsx
 
 dbDisconnect(con, shutdown = TRUE)
