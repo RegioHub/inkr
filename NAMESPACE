@@ -2,5 +2,3 @@
 
 S3method(print,inkar_db)
 export(inkar_db_build)
-export(rename_with_inkar_indicators)
-importFrom(dplyr,.data)
