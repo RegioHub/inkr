@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 {inkr} provides efficient and automated access to regional data from [inkar.de](https://www.inkar.de) via a local relational database.
 
-Data from [INKAR](https://www.inkar.de)^[downloaded via ["Datenbankdownload"](https://www.bbr-server.de/imagemap/inkar/download/inkar_2021.zip)] are normalised^[i.e. not a single table with 21 million rows] and imported into a local [DuckDB](https://duckdb.org) database. On attach (e.g. with `library(inkr)`), a [DBI](https://dbi.r-dbi.org/) connection is made from R to this database.
+Data from [INKAR](https://www.inkar.de)^[downloaded via ["Datenbankdownload"](https://www.bbr-server.de/imagemap/inkar/download/inkar_2024.zip)] are normalised^[i.e. not a single table with 21 million rows] and imported into a local [DuckDB](https://duckdb.org) database. On attach (e.g. with `library(inkr)`), a [DBI](https://dbi.r-dbi.org/) connection is made from R to this database.
 
 ## Installation
 
@@ -77,19 +77,14 @@ inkar$`_indikatoren` |>
   filter(kurzname == "Medianeinkommen")
 ```
 
-5 counties with the highest median income in 2019:
+5 counties with the highest median income in 2021:
 
 ```{r}
-inkar$privateinkommen_private_schulden |>
-  filter(zeitbezug == 2019) |>
-  select(region_id, x224) |> # Got indicator ID 224 from above
-  rename_with_inkar_indicators() |> # Get INKAR name for x224: medianeinkommen
-  # Join with the `_regionen` table to get region names and types
-  left_join(inkar$`_regionen`, by = c("region_id" = "id")) |>
-  arrange(desc(medianeinkommen)) |>
-  filter(raumbezug == "Kreise") |>
-  head(5) |>
-  select(name, medianeinkommen)
+inkar$privateinkommen_und_private_schulden |>
+  filter(raumbezug == "Kreise", zeitbezug == 2021) |>
+  select(name, m_ek) |>
+  arrange(desc(m_ek)) |>
+  head(5)
 ```
 
 ## Citation

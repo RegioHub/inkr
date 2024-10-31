@@ -26,7 +26,7 @@ inkar_db_build <- function(overwrite = FALSE, verbose = TRUE) {
     lapply(dbExecute_verbose, conn = con, verbose = verbose)
 
   readLines(system.file("db", "load.sql", package = "inkr")) |>
-    sub(pattern = "\\$INST_PATH", replacement = system.file(package = "inkr")) |>
+    sub(pattern = "$INST_PATH", replacement = system.file(package = "inkr"), fixed = TRUE) |>
     lapply(dbExecute_verbose, conn = con, verbose = verbose)
 
   DBI::dbDisconnect(con, shutdown = TRUE)
@@ -57,7 +57,9 @@ inkar_db <- function(read_only = TRUE) {
 }
 
 inkar_db_attach <- function() {
-  if (!db_exists()) return()
+  if (!db_exists()) {
+    return()
+  }
 
   con <- inkar_db()
 

@@ -56,14 +56,14 @@ names(inkar)
 #> [10] "flaechennutzung_und_umwelt"          
 #> [11] "medizinische_und_soziale_versorgung" 
 #> [12] "oeffentliche_finanzen"               
-#> [13] "privateinkommen_private_schulden"    
+#> [13] "privateinkommen_und_private_schulden"
 #> [14] "raumwirksame_mittel"                 
-#> [15] "sdg"                                 
+#> [15] "sdg_indikatoren_fuer_kommunen"       
 #> [16] "siedlungsstruktur"                   
 #> [17] "sozialleistungen"                    
 #> [18] "verkehr_und_erreichbarkeit"          
 #> [19] "wirtschaft"                          
-#> [20] "zom"
+#> [20] "zentrale_orte_monitoring"
 ```
 
 You can use {dplyr} to work with the tables in `inkar` as if they were
@@ -76,39 +76,39 @@ inkar$`_regionen` |>
   distinct(raumbezug) |>
   arrange(raumbezug)
 #> # Source:     SQL [?? x 1]
-#> # Database:   DuckDB 0.6.2-dev1166 [unknown@Linux 5.15.0-60-generic:R 4.2.2//home/hnguyen9/R/x86_64-pc-linux-gnu-library/4.2/inkr/db/inkar.duckdb]
+#> # Database:   DuckDB v1.1.2 [root@Darwin 24.0.0:R 4.4.1//Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/inkr/db/inkar.duckdb]
 #> # Ordered by: raumbezug
-#>    raumbezug                         
-#>    <chr>                             
-#>  1 Arbeitsmarktregionen              
-#>  2 BBSR-Mittelbereiche               
-#>  3 Braunkohlerevier                  
-#>  4 Bund                              
-#>  5 Bundesländer                      
-#>  6 EU                                
-#>  7 Gemeinden                         
-#>  8 Gemeindeverbände                  
-#>  9 Großstadtregionaler Einzugsbereich
-#> 10 Großstadtregionen                 
-#> # … with more rows
+#>    raumbezug                                  
+#>    <chr>                                      
+#>  1 Arbeitsmarktregionen                       
+#>  2 BBSR-Mittelbereiche                        
+#>  3 Braunkohlereviere (auch nicht förderfähige)
+#>  4 Bund                                       
+#>  5 Bundesländer                               
+#>  6 EU27                                       
+#>  7 Gemeinden                                  
+#>  8 Gemeindeverbände (Verwaltungsgemeinschaft) 
+#>  9 Großstadtregionaler Einzugsbereich         
+#> 10 Großstadtregionen                          
+#> # ℹ more rows
 
 inkar$`_indikatoren` |>
   count(bereich)
 #> # Source:   SQL [?? x 2]
-#> # Database: DuckDB 0.6.2-dev1166 [unknown@Linux 5.15.0-60-generic:R 4.2.2//home/hnguyen9/R/x86_64-pc-linux-gnu-library/4.2/inkr/db/inkar.duckdb]
+#> # Database: DuckDB v1.1.2 [root@Darwin 24.0.0:R 4.4.1//Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/inkr/db/inkar.duckdb]
 #>    bereich                                 n
 #>    <chr>                               <dbl>
-#>  1 Absolutzahlen                          10
-#>  2 Arbeitslosigkeit                       34
-#>  3 Bauen und Wohnen                       19
-#>  4 Beschäftigung und Erwerbstätigkeit     47
-#>  5 Bevölkerung                            81
-#>  6 Bildung                                30
-#>  7 Privateinkommen, Private Schulden      15
-#>  8 Flächennutzung und Umwelt              17
-#>  9 Medizinische und soziale Versorgung    20
+#>  1 SDG-Indikatoren für Kommunen           41
+#>  2 Medizinische und soziale Versorgung    20
+#>  3 Absolutzahlen                          11
+#>  4 Siedlungsstruktur                       5
+#>  5 Wirtschaft                             24
+#>  6 Europa                                 89
+#>  7 Arbeitslosigkeit                       34
+#>  8 Bauen und Wohnen                       21
+#>  9 Flächennutzung und Umwelt              17
 #> 10 Öffentliche Finanzen                   10
-#> # … with more rows
+#> # ℹ more rows
 ```
 
 ### Example: median income
@@ -118,45 +118,39 @@ Find the indicator ID for the median income:
 ``` r
 inkar$`_indikatoren` |>
   filter(kurzname == "Medianeinkommen")
-#> # Source:   SQL [1 x 7]
-#> # Database: DuckDB 0.6.2-dev1166 [unknown@Linux 5.15.0-60-generic:R 4.2.2//home/hnguyen9/R/x86_64-pc-linux-gnu-library/4.2/inkr/db/inkar.duckdb]
-#>      id bereich                           kurzname name  algor…¹ anmer…² stati…³
-#>   <int> <chr>                             <chr>    <chr> <chr>   <chr>   <chr>  
-#> 1   224 Privateinkommen, Private Schulden Mediane… Medi… Median… Median… Statis…
-#> # … with abbreviated variable names ¹​algorithmus, ²​anmerkungen,
-#> #   ³​statistische_grundlagen
+#> # Source:   SQL [1 x 10]
+#> # Database: DuckDB v1.1.2 [root@Darwin 24.0.0:R 4.4.1//Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/inkr/db/inkar.duckdb]
+#>   merk_id  m_id rubrik    bereich kuerzel kurzname name  algorithmus anmerkungen
+#>     <int> <int> <chr>     <chr>   <chr>   <chr>    <chr> <chr>       <chr>      
+#> 1   20287  6003 Raumbeob… Privat… m_ek    Mediane… Medi… Medianeink… "Median de…
+#> # ℹ 1 more variable: statistische_grundlagen <chr>
 ```
 
-5 counties with the highest median income in 2019:
+5 counties with the highest median income in 2021:
 
 ``` r
-inkar$privateinkommen_private_schulden |>
-  filter(zeitbezug == 2019) |>
-  select(region_id, x224) |> # Got indicator ID 224 from above
-  rename_with_inkar_indicators() |> # Get INKAR name for x224: medianeinkommen
-  # Join with the `_regionen` table to get region names and types
-  left_join(inkar$`_regionen`, by = c("region_id" = "id")) |>
-  arrange(desc(medianeinkommen)) |>
-  filter(raumbezug == "Kreise") |>
-  head(5) |>
-  select(name, medianeinkommen)
+inkar$privateinkommen_und_private_schulden |>
+  filter(raumbezug == "Kreise", zeitbezug == 2021) |>
+  select(name, m_ek) |>
+  arrange(desc(m_ek)) |>
+  head(5)
 #> # Source:     SQL [5 x 2]
-#> # Database:   DuckDB 0.6.2-dev1166 [unknown@Linux 5.15.0-60-generic:R 4.2.2//home/hnguyen9/R/x86_64-pc-linux-gnu-library/4.2/inkr/db/inkar.duckdb]
-#> # Ordered by: desc(medianeinkommen)
-#>   name                         medianeinkommen
-#>   <chr>                                  <dbl>
-#> 1 Wolfsburg, Stadt                       5089.
-#> 2 Ingolstadt, Stadt                      5004.
-#> 3 Erlangen, Stadt                        4907.
-#> 4 Böblingen                              4809.
-#> 5 Ludwigshafen am Rhein, Stadt           4721.
+#> # Database:   DuckDB v1.1.2 [root@Darwin 24.0.0:R 4.4.1//Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/inkr/db/inkar.duckdb]
+#> # Ordered by: desc(m_ek)
+#>   name                       m_ek
+#>   <chr>                     <dbl>
+#> 1 Erlangen                  5091.
+#> 2 Wolfsburg, Stadt          4970.
+#> 3 Ingolstadt                4966.
+#> 4 Stuttgart, Stadtkreis     4750.
+#> 5 München, Landeshauptstadt 4681.
 ```
 
 ## Citation
 
 To cite package ‘inkr’ in publications use:
 
-Nguyen HL (2023). {inkr}: Local Access from R to All INKAR Data.
+Nguyen HL (2024). {inkr}: Local Access from R to All INKAR Data.
 <https://doi.org/10.5281/zenodo.7643755>,
 <https://github.com/RegioHub/inkr>
 
@@ -166,8 +160,8 @@ A BibTeX entry for LaTeX users is
       title = {{inkr}: Local Access from R to All INKAR Data},
       doi = {10.5281/zenodo.7643755},
       author = {H. Long Nguyen},
-      year = {2023},
-      version = {0.1.0},
+      year = {2024},
+      version = {0.2.0},
       url = {https://github.com/RegioHub/inkr},
     }
 
