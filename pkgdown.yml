@@ -2,7 +2,7 @@ pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2024-10-31T01:04Z
+last_built: 2024-10-31T01:07Z
 urls:
   reference: https://regiohub.github.io/inkr/reference
   article: https://regiohub.github.io/inkr/articles
